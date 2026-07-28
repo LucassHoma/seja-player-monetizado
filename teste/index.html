@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medidor de Shift</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>Medidor de Shift</h1>
+    <p class="hint">Pressione e segure a tecla <kbd>Shift</kbd></p>
+
+    <div class="status" id="status">Aguardando...</div>
+
+    <div class="timer" id="timer">0.000 s</div>
+
+    <section class="history">
+      <h2>Últimas medições</h2>
+      <ul id="history-list"></ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

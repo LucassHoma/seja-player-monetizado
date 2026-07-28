@@ -46,10 +46,44 @@
     });
   }
 
+  async function loadStaticContent() {
+    try {
+      const response = await fetch(`${STATIC_CONTENT}?t=${Date.now()}`, { cache: 'no-store' });
+      if (response.ok) return response.json();
+    } catch {
+      /* fallback: HTML estático */
+    }
+    return null;
+  }
+
+  function isDrivePhotoUrl(url) {
+    return /drive\.google\.com/i.test(String(url || ''));
+  }
+
+  /** Prefer local assets over Drive uploads when content.json has the canonical path. */
+  function reconcileTestimonialPhotos(data, staticData) {
+    const items = data?.testimonials?.items;
+    const staticItems = staticData?.testimonials?.items;
+    if (!items?.length || !staticItems?.length) return data;
+
+    const staticById = Object.fromEntries(staticItems.map((item) => [item.id, item]));
+    data.testimonials.items = items.map((item) => {
+      const local = staticById[item.id];
+      if (local?.photo?.startsWith('assets/') && isDrivePhotoUrl(item.photo)) {
+        return { ...item, photo: local.photo };
+      }
+      return item;
+    });
+    return data;
+  }
+
   async function loadContent() {
+    const staticData = await loadStaticContent();
+
     if (GAS_CONTENT) {
       try {
-        return await loadJsonp(GAS_CONTENT);
+        const gasData = await loadJsonp(GAS_CONTENT);
+        return reconcileTestimonialPhotos(gasData, staticData);
       } catch (err) {
         console.warn('[CMS] GAS indisponível, usando content.json:', err.message);
       }
@@ -57,19 +91,12 @@
 
     try {
       const response = await fetch(`${API}?t=${Date.now()}`, { cache: 'no-store' });
-      if (response.ok) return response.json();
+      if (response.ok) return reconcileTestimonialPhotos(await response.json(), staticData);
     } catch {
       /* API indisponível (ex.: GitHub Pages) */
     }
 
-    try {
-      const response = await fetch(`${STATIC_CONTENT}?t=${Date.now()}`, { cache: 'no-store' });
-      if (response.ok) return response.json();
-    } catch {
-      /* fallback: HTML estático */
-    }
-
-    return null;
+    return staticData;
   }
 
   function getSiteBasePath() {
@@ -90,9 +117,23 @@
     return `/${first}`;
   }
 
+  function extractDriveFileId(url) {
+    const value = String(url || '');
+    const byQuery = value.match(/[?&]id=([^&]+)/i);
+    if (byQuery) return byQuery[1];
+    const byPath = value.match(/\/file\/d\/([^/]+)/i);
+    return byPath ? byPath[1] : '';
+  }
+
   function resolveMediaUrl(url) {
     if (!url) return '';
-    if (/^https?:\/\//i.test(url) || url.startsWith('data:') || url.startsWith('blob:')) {
+    if (url.startsWith('data:') || url.startsWith('blob:')) return url;
+
+    if (/^https?:\/\//i.test(url)) {
+      const driveId = extractDriveFileId(url);
+      if (driveId) {
+        return `https://drive.google.com/thumbnail?id=${driveId}&sz=w112`;
+      }
       return url;
     }
 
@@ -183,10 +224,18 @@
   }
 
   function renderTestimonialCard(t, star) {
+    const photo = resolveMediaUrl(t.photo);
+    const fallbackPhoto = t.photo?.startsWith('assets/')
+      ? resolveMediaUrl(t.photo)
+      : '';
+    const onError = fallbackPhoto && fallbackPhoto !== photo
+      ? ` onerror="this.onerror=null;this.src='${escapeHtml(fallbackPhoto)}';"`
+      : '';
+
     return `
         <article class="testimonial-card glass-card reveal visible">
           <header class="testimonial-card__header">
-            <img src="${escapeHtml(resolveMediaUrl(t.photo))}" alt="${escapeHtml(t.name)}" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+            <img src="${escapeHtml(photo)}" alt="${escapeHtml(t.name)}" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async" referrerpolicy="no-referrer"${onError}>
             <div class="testimonial-card__author">
               <strong>${escapeHtml(t.name)}</strong>
               <span>${wrapCountUpNumbers(t.tagline)}</span>

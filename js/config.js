@@ -12,7 +12,7 @@ window.PM_CONFIG = {
   checkoutUrl: 'https://pay.kiwify.com.br/4Q3618c',
 
   /** E-mail de contato */
-  contactEmail: 'contatomitplay@gmail.com',
+  contactEmail: 'playermonetizado@gmail.com',
   contactPhone: '5511995791061',
 
   /** Meta Pixel ID (ex.: '123456789012345') — deixe vazio para desativar */
