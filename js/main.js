@@ -21,6 +21,14 @@
   document.querySelectorAll('#testimonialsTrack .testimonial-card.reveal').forEach((el) => el.classList.add('visible'));
   document.querySelectorAll('.social-proof.reveal').forEach((el) => el.classList.add('visible'));
 
+  function markTestimonialStarsVisible() {
+    document.querySelectorAll('#testimonialsTrack .testimonial-card').forEach((card) => {
+      card.classList.add('visible');
+    });
+  }
+
+  markTestimonialStarsVisible();
+
   document.querySelectorAll('a[href*="kiwify.com"], .checkout-link').forEach(link => {
     link.classList.add('checkout-link');
   });
@@ -37,70 +45,10 @@
   const scrollProgress = document.getElementById('scrollProgress');
   const glow1 = document.querySelector('.hero__glow--1');
   const glow2 = document.querySelector('.hero__glow--2');
-  const instructorVisual = document.getElementById('instructorVisual');
-  const instructorPhotoWrap = document.getElementById('instructorPhotoWrap');
-  const instructorPhotoImg = document.querySelector('.instructor-photo img');
   const prefersReducedMotionGlobal = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const enableHeroParallax =
     window.matchMedia('(min-width: 769px) and (pointer: fine)').matches && !prefersReducedMotionGlobal;
-  const enableInstructorParallax = !prefersReducedMotionGlobal;
   let scrollTicking = false;
-
-  const instructorParallax = {
-    current: { rx: 0, ry: 0, ty: 0, iz: 1, imgY: 0 },
-    target: { rx: 0, ry: 0, ty: 0, iz: 1, imgY: 0 },
-    mouse: { x: 0, y: 0 }
-  };
-
-  function computeInstructorParallaxTargets() {
-    if (!enableInstructorParallax || !instructorVisual || !instructorPhotoWrap) return;
-
-    const rect = instructorVisual.getBoundingClientRect();
-    const vh = window.innerHeight;
-
-    if (rect.bottom < -80 || rect.top > vh + 80) {
-      instructorParallax.target.rx = 0;
-      instructorParallax.target.ry = 0;
-      instructorParallax.target.ty = 0;
-      instructorParallax.target.imgY = 0;
-      instructorParallax.target.iz = 1;
-      return;
-    }
-
-    const centerOffset = (rect.top + rect.height * 0.45) - vh * 0.5;
-    const norm = centerOffset / (vh * 0.52);
-    const clamped = Math.max(-1, Math.min(1, norm));
-    const mouseScale = enableHeroParallax ? 1 : 0;
-
-    instructorParallax.target.ry = clamped * 18 + instructorParallax.mouse.x * 12 * mouseScale;
-    instructorParallax.target.rx = clamped * -12 + instructorParallax.mouse.y * -9 * mouseScale;
-    instructorParallax.target.ty = clamped * -36;
-    instructorParallax.target.imgY = clamped * -22 + instructorParallax.mouse.y * 8 * mouseScale;
-    instructorParallax.target.iz = 1 + Math.abs(clamped) * 0.035;
-  }
-
-  function renderInstructorParallax() {
-    if (!enableInstructorParallax || !instructorPhotoWrap) return;
-
-    const lerp = 0.11;
-    const c = instructorParallax.current;
-    const t = instructorParallax.target;
-
-    c.rx += (t.rx - c.rx) * lerp;
-    c.ry += (t.ry - c.ry) * lerp;
-    c.ty += (t.ty - c.ty) * lerp;
-    c.imgY += (t.imgY - c.imgY) * lerp;
-    c.iz += (t.iz - c.iz) * lerp;
-
-    instructorPhotoWrap.style.transform =
-      `perspective(1200px) rotateX(${c.rx.toFixed(2)}deg) rotateY(${c.ry.toFixed(2)}deg) translate3d(0, ${c.ty.toFixed(1)}px, 0) scale(${c.iz.toFixed(3)})`;
-
-    if (instructorPhotoImg) {
-      instructorPhotoImg.style.transform = `translate3d(0, ${c.imgY.toFixed(1)}px, 0) scale(1.08)`;
-    }
-
-    requestAnimationFrame(renderInstructorParallax);
-  }
 
   function handleScroll() {
     const scrollY = window.scrollY;
@@ -123,8 +71,6 @@
       if (glow1) glow1.style.transform = `translateY(${y}px)`;
       if (glow2) glow2.style.transform = `translateY(${-y * 0.5}px)`;
     }
-
-    computeInstructorParallaxTargets();
   }
 
   function onScroll() {
@@ -138,26 +84,6 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
   handleScroll();
-
-  if (enableInstructorParallax && instructorPhotoWrap) {
-    computeInstructorParallaxTargets();
-    requestAnimationFrame(renderInstructorParallax);
-  }
-
-  if (enableHeroParallax && instructorVisual) {
-    instructorVisual.addEventListener('mousemove', (event) => {
-      const rect = instructorVisual.getBoundingClientRect();
-      instructorParallax.mouse.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
-      instructorParallax.mouse.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-      computeInstructorParallaxTargets();
-    });
-
-    instructorVisual.addEventListener('mouseleave', () => {
-      instructorParallax.mouse.x = 0;
-      instructorParallax.mouse.y = 0;
-      computeInstructorParallaxTargets();
-    });
-  }
 
   /* ── Mobile navigation ── */
   if (navToggle && nav) {
@@ -693,6 +619,15 @@
       if (cursorGlow) {
         cursorGlow.style.left = `${mouseX}px`;
         cursorGlow.style.top = `${mouseY}px`;
+
+        let nearCta = false;
+        document.querySelectorAll('.btn--primary').forEach((btn) => {
+          const rect = btn.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          if (Math.hypot(mouseX - cx, mouseY - cy) < 130) nearCta = true;
+        });
+        cursorGlow.classList.toggle('is-near-cta', nearCta);
       }
     }
 
@@ -847,7 +782,12 @@
 
   if (heroVsl) {
     if (vslFacade) vslFacade.addEventListener('click', activateVsl);
-    activateVsl();
+    const preloadVsl = () => loadVslPlayer();
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(preloadVsl, { timeout: 2500 });
+    } else {
+      setTimeout(preloadVsl, 1200);
+    }
   }
 
   /* ── Testimonials auto-scroll (marquee) ── */
@@ -910,7 +850,10 @@
 
   bindTestimonialsMarqueePause();
   initTestimonialsMarquee();
-  window.addEventListener('cms:applied', initTestimonialsMarquee);
+  window.addEventListener('cms:applied', () => {
+    initTestimonialsMarquee();
+    markTestimonialStarsVisible();
+  });
 
   function initLogosMarquee() {
     const track = document.getElementById('logosTrack');
@@ -943,7 +886,7 @@
     track.classList.remove('is-marquee-ready');
     track.style.removeProperty('--logos-marquee-duration');
     const halfWidth = track.scrollWidth / 2;
-    const duration = Math.max(halfWidth / 55, 18);
+    const duration = Math.max(halfWidth / 28, 32);
     track.style.setProperty('--logos-marquee-duration', `${duration}s`);
     track.classList.add('is-marquee-ready');
   }
@@ -951,6 +894,82 @@
   initLogosMarquee();
   window.addEventListener('load', initLogosMarquee, { once: true });
   window.addEventListener('resize', initLogosMarquee, { passive: true });
+
+  function initStatsMarquee() {
+    const track = document.getElementById('statsMarqueeTrack');
+    const viewport = track?.closest('.stats-marquee__viewport');
+    if (!track || !viewport) return;
+
+    if (!initStatsMarquee.seed) {
+      initStatsMarquee.seed = [...track.querySelectorAll('.stats-marquee__item')].map((item) => item.cloneNode(true));
+    }
+
+    track.replaceChildren(...initStatsMarquee.seed.map((item) => item.cloneNode(true)));
+
+    const seed = [...track.children];
+    let guard = 0;
+
+    while (track.scrollWidth < viewport.clientWidth * 1.2 && guard < 16) {
+      seed.forEach((item) => {
+        track.appendChild(item.cloneNode(true));
+      });
+      guard += 1;
+    }
+
+    const halfCount = track.children.length;
+    for (let i = 0; i < halfCount; i += 1) {
+      track.appendChild(track.children[i].cloneNode(true));
+    }
+
+    track.classList.remove('is-marquee-ready');
+    track.style.removeProperty('--stats-marquee-duration');
+    const duration = Math.max(track.scrollWidth / 2 / 22, 36);
+    track.style.setProperty('--stats-marquee-duration', `${duration}s`);
+    track.classList.add('is-marquee-ready');
+  }
+
+  initStatsMarquee();
+  window.addEventListener('load', initStatsMarquee, { once: true });
+  window.addEventListener('resize', initStatsMarquee, { passive: true });
+
+  function initSocialProofLightbox() {
+    const lightbox = document.getElementById('socialProofLightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    if (!lightbox || !lightboxImg) return;
+
+    function closeLightbox() {
+      lightbox.hidden = true;
+      document.body.style.overflow = '';
+      lightboxImg.removeAttribute('src');
+    }
+
+    function openLightbox(button) {
+      const img = button.querySelector('img');
+      if (!img) return;
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      if (lightboxCaption) {
+        lightboxCaption.textContent = button.dataset.caption || img.alt;
+      }
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.querySelectorAll('.social-proof-zoom').forEach((button) => {
+      button.addEventListener('click', () => openLightbox(button));
+    });
+
+    lightbox.querySelectorAll('[data-lightbox-close]').forEach((node) => {
+      node.addEventListener('click', closeLightbox);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
+  }
+
+  initSocialProofLightbox();
 
   /* ── Social proof slider (WhatsApp prints) ── */
   function initSocialProofSlider() {

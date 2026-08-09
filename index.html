@@ -44,9 +44,9 @@
   </script>
   <link rel="apple-touch-icon" href="assets/brand/favicon.svg">
   <link rel="preload" href="assets/fonts/sora-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/critical.min.css?v=61ac384235">
-  <link rel="stylesheet" href="css/site.min.css?v=61ac384235">
-  <meta name="pm-asset-version" content="61ac384235">
+  <link rel="stylesheet" href="css/critical.min.css?v=fb27a3f7bb">
+  <link rel="stylesheet" href="css/site.min.css?v=fb27a3f7bb">
+  <meta name="pm-asset-version" content="fb27a3f7bb">
 </head>
 <body>
 
@@ -125,6 +125,17 @@
         <div class="hero__demo reveal" id="vsl">
           <div class="hero-vsl" id="heroVsl" data-vsl-video-id="vid-6a0911f9f38f377fba3e82ea">
             <button type="button" class="vsl-facade" id="vslFacade" aria-label="Assistir apresentação em vídeo">
+              <img
+                class="vsl-facade__poster"
+                src="https://cdn.converteai.net/c4d8dc09-d14e-4c12-94a3-b57ca9ac174a/players/6a0911f9f38f377fba3e82ea/thumbnail.jpg"
+                alt=""
+                width="1280"
+                height="720"
+                decoding="async"
+                fetchpriority="high"
+                data-cms="hero.vslPoster"
+              >
+              <span class="vsl-facade__shade" aria-hidden="true"></span>
               <span class="vsl-facade__play">
                 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
               </span>
@@ -289,13 +300,32 @@
       <section class="section section--instructor" id="instrutor">
         <div class="container">
           <div class="instructor-grid">
-            <div class="instructor-visual reveal" id="instructorVisual">
-              <div class="instructor-photo-wrap" id="instructorPhotoWrap">
+            <div class="instructor-visual reveal">
               <a href="https://instagram.com/mitplay10" class="instructor-photo glass-card" target="_blank" rel="noopener noreferrer" data-cms="instructor.photoLink" aria-label="Instagram de Lucas João">
                 <span class="instructor-photo__viral-ring" aria-hidden="true"></span>
                 <img src="assets/edits/lucas-joao.png" alt="Lucas João, criador do Player Monetizado" width="400" height="480" loading="lazy" data-cms="instructor.photo">
               </a>
-              </div>
+              <p class="instructor-photo__handle">
+                <svg class="instructor-photo__ig-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#feda75"/>
+                      <stop offset="25%" stop-color="#fa7e1e"/>
+                      <stop offset="50%" stop-color="#d62976"/>
+                      <stop offset="75%" stop-color="#962fbf"/>
+                      <stop offset="100%" stop-color="#4f5bd5"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="url(#ig-gradient)" stroke-width="2"/>
+                  <circle cx="12" cy="12" r="4.5" fill="none" stroke="url(#ig-gradient)" stroke-width="2"/>
+                  <circle cx="17.4" cy="6.6" r="1.2" fill="url(#ig-gradient)"/>
+                </svg>
+                <span data-cms="instructor.photoBubble">@mitplay10</span>
+              </p>
+              <a href="https://instagram.com/mitplay10" class="instructor-photo__profile-link" target="_blank" rel="noopener noreferrer" data-cms="instructor.photoLink">
+                Ver perfil no Instagram
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
             </div>
             <div class="instructor-content reveal">
               <span class="section-tag">Quem ensina</span>
@@ -422,7 +452,13 @@
                   <ul class="social-proof-slider__track" id="socialProofTrack" aria-live="polite">
                     <li class="social-proof-slide is-active">
                       <figure class="social-proof-slide__frame glass-card">
-                        <img src="assets/social-proof/jose-pereira.png" alt="Print de WhatsApp de José Pereira mostrando pagamento de R$ 9.357,48 da TikTok" width="390" height="844" loading="eager" decoding="async">
+                        <button type="button" class="social-proof-zoom" data-caption="José Pereira · R$ 9.357,48 · Recompensas de Criador">
+                          <img src="assets/social-proof/jose-pereira.png" alt="Print de WhatsApp de José Pereira mostrando pagamento de R$ 9.357,48 da TikTok" width="390" height="844" loading="eager" decoding="async">
+                          <span class="social-proof-zoom__hint">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                            Ampliar
+                          </span>
+                        </button>
                         <figcaption>
                           <strong>José Pereira</strong>
                           <span>R$ 9.357,48 · Recompensas de Criador</span>
@@ -431,7 +467,13 @@
                     </li>
                     <li class="social-proof-slide" aria-hidden="true">
                       <figure class="social-proof-slide__frame glass-card">
-                        <img src="assets/social-proof/fernando-morais.png" alt="Print de WhatsApp de Fernando Morais mostrando pagamento de USD 110,23" width="390" height="844" loading="lazy" decoding="async">
+                        <button type="button" class="social-proof-zoom" data-caption="Fernando Morais · USD 110,23 · Primeiro pagamento em dólar">
+                          <img src="assets/social-proof/fernando-morais.png" alt="Print de WhatsApp de Fernando Morais mostrando pagamento de USD 110,23" width="390" height="844" loading="lazy" decoding="async">
+                          <span class="social-proof-zoom__hint">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                            Ampliar
+                          </span>
+                        </button>
                         <figcaption>
                           <strong>Fernando Morais</strong>
                           <span>USD 110,23 · Primeiro pagamento em dólar</span>
@@ -440,7 +482,13 @@
                     </li>
                     <li class="social-proof-slide" aria-hidden="true">
                       <figure class="social-proof-slide__frame glass-card">
-                        <img src="assets/social-proof/alexandre-silva.png" alt="Print de WhatsApp de Alexandre Silva mostrando corte com 2,1 milhões de curtidas" width="390" height="844" loading="lazy" decoding="async">
+                        <button type="button" class="social-proof-zoom" data-caption="Alexandre Silva · 2,1M curtidas · 100% pelo celular">
+                          <img src="assets/social-proof/alexandre-silva.png" alt="Print de WhatsApp de Alexandre Silva mostrando corte com 2,1 milhões de curtidas" width="390" height="844" loading="lazy" decoding="async">
+                          <span class="social-proof-zoom__hint">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                            Ampliar
+                          </span>
+                        </button>
                         <figcaption>
                           <strong>Alexandre Silva</strong>
                           <span>2,1M curtidas · 100% pelo celular</span>
@@ -453,6 +501,19 @@
                 <button type="button" class="social-proof-slider__nav social-proof-slider__nav--next" aria-label="Próxima prova">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-marquee reveal" aria-label="Resultados reais de alunos">
+            <div class="stats-marquee__viewport">
+              <div class="stats-marquee__track" id="statsMarqueeTrack">
+                <span class="stats-marquee__item">R$ 9.357,48 · Recompensas TikTok</span>
+                <span class="stats-marquee__item">USD 110,23 · Primeiro pagamento</span>
+                <span class="stats-marquee__item">2,1M curtidas · 100% celular</span>
+                <span class="stats-marquee__item">R$ 10K+/mês · Fundo de Criadores</span>
+                <span class="stats-marquee__item">80K views · 14 dias</span>
+                <span class="stats-marquee__item">120K views · 1 corte</span>
               </div>
             </div>
           </div>
@@ -815,6 +876,20 @@
         </a>
         <p data-cms="footer.tagline">Transformando cortes de futebol em renda digital.</p>
       </div>
+      <div class="footer__trust" aria-label="Selos de confiança">
+        <div class="footer__trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span>Pagamento seguro · Kiwify</span>
+        </div>
+        <div class="footer__trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Garantia 7 dias</span>
+        </div>
+        <div class="footer__trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span>Acesso imediato</span>
+        </div>
+      </div>
       <div class="footer__links" data-cms="footer.links">
         <a href="politica-privacidade.html">Política de Privacidade</a>
         <a href="contato.html">Contato</a>
@@ -836,10 +911,22 @@
     </div>
   </div>
 
-    </main>
+  </div>
+
   </section>
 
-  <script src="js/config.min.js?v=61ac384235" defer></script>
-  <script src="js/site.min.js?v=61ac384235" defer></script>
+  <div class="lightbox" id="socialProofLightbox" hidden>
+    <div class="lightbox__backdrop" data-lightbox-close></div>
+    <div class="lightbox__dialog" role="dialog" aria-modal="true" aria-labelledby="lightboxCaption">
+      <button type="button" class="lightbox__close" data-lightbox-close aria-label="Fechar">&times;</button>
+      <img class="lightbox__img" id="lightboxImg" alt="">
+      <p class="lightbox__caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  </main>
+
+  <script src="js/config.min.js?v=fb27a3f7bb" defer></script>
+  <script src="js/site.min.js?v=fb27a3f7bb" defer></script>
 </body>
 </html>

@@ -366,6 +366,9 @@
       if (player) player.id = hero.videoId;
     }
 
+    const vslPoster = document.querySelector('[data-cms="hero.vslPoster"]');
+    if (vslPoster && hero?.vslPoster) vslPoster.src = hero.vslPoster;
+
     setTitleWithAccent(
       document.querySelector('[data-cms="course.title"]'),
       course?.title,
