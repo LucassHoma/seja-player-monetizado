@@ -510,7 +510,12 @@
   function initVslGate() {
     if (!vslGate) return;
 
-    if (localStorage.getItem(vslGatePersistKey) === 'true') {
+    const resetGate = new URLSearchParams(window.location.search).has('resetGate');
+    if (resetGate) {
+      localStorage.removeItem(vslGatePersistKey);
+    }
+
+    if (!resetGate && localStorage.getItem(vslGatePersistKey) === 'true') {
       unlockVslGate();
       return;
     }
@@ -782,12 +787,7 @@
 
   if (heroVsl) {
     if (vslFacade) vslFacade.addEventListener('click', activateVsl);
-    const preloadVsl = () => loadVslPlayer();
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(preloadVsl, { timeout: 2500 });
-    } else {
-      setTimeout(preloadVsl, 1200);
-    }
+    activateVsl();
   }
 
   /* ── Testimonials auto-scroll (marquee) ── */
