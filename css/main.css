@@ -2572,30 +2572,6 @@ strong {
   box-shadow: 0 8px 24px rgba(214, 41, 118, 0.15);
 }
 
-.instructor-photo__profile-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  margin-top: 0.65rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--accent-green-light);
-  text-decoration: none;
-  transition: color var(--transition-fast), gap var(--transition-base);
-}
-
-.instructor-photo__profile-link svg {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-}
-
-.instructor-photo__profile-link:hover {
-  color: var(--accent-gold-light);
-  gap: 0.55rem;
-}
-
 .instructor-photo__ig-icon {
   width: 16px;
   height: 16px;
