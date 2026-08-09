@@ -44,9 +44,9 @@
   </script>
   <link rel="apple-touch-icon" href="assets/brand/favicon.svg">
   <link rel="preload" href="assets/fonts/sora-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/critical.min.css?v=c89c86dcb8">
-  <link rel="stylesheet" href="css/site.min.css?v=c89c86dcb8">
-  <meta name="pm-asset-version" content="c89c86dcb8">
+  <link rel="stylesheet" href="css/critical.min.css?v=61ac384235">
+  <link rel="stylesheet" href="css/site.min.css?v=61ac384235">
+  <meta name="pm-asset-version" content="61ac384235">
 </head>
 <body>
 
@@ -102,7 +102,9 @@
     <!-- Hero -->
     <section class="hero" id="hero">
       <div class="hero__bg" aria-hidden="true">
-        <div class="hero__video-wrap"></div>
+        <div class="hero__video-wrap">
+          <img class="hero__bg-img" src="assets/edits/hero-bg.svg" alt="" width="1920" height="1080" decoding="async" fetchpriority="low" aria-hidden="true">
+        </div>
         <div class="hero__overlay"></div>
         <div class="hero__glow hero__glow--1"></div>
         <div class="hero__glow hero__glow--2"></div>
@@ -156,23 +158,26 @@
     <section class="logos-bar" aria-label="Plataformas e parceiros">
       <div class="container">
         <p class="logos-bar__label">Seus cortes publicados em</p>
-        <div class="logos-bar__grid">
-          <div class="logo-item">
-            <svg class="logo-item__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 0012.68 0V8.69a8.18 8.18 0 004.77 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
-            <span>TikTok</span>
-          </div>
-          <div class="logo-item">
-            <svg class="logo-item__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none"/></svg>
-            <span>Instagram</span>
-          </div>
-          <div class="logo-item">
-            <svg class="logo-item__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
-            <span>Shorts</span>
+        <div class="logos-bar__viewport">
+          <div class="logos-bar__track" id="logosTrack">
+            <div class="logo-item">
+              <svg class="logo-item__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 0012.68 0V8.69a8.18 8.18 0 004.77 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+              <span>TikTok</span>
+            </div>
+            <div class="logo-item">
+              <svg class="logo-item__icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none"/></svg>
+              <span>Instagram</span>
+            </div>
+            <div class="logo-item">
+              <svg class="logo-item__icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 00.5 6.2 31 31 0 000 12a31 31 0 00.5 5.8 3 3 0 002.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 002.1-2.1A31 31 0 0024 12a31 31 0 00-.5-5.8zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+              <span>Shorts</span>
+            </div>
           </div>
         </div>
       </div>
     </section>
-    <section class="depois3minutos hidden">    <!-- Problema -->
+    <section class="depois3minutos hidden">
+      <div class="vsl-gate-teaser" id="vslGateTeaser">
       <section class="section section--problem section--grid" id="problema">
         <div class="container">
           <div class="section-header reveal">
@@ -207,7 +212,15 @@
           </blockquote>
         </div>
       </section>
-  
+      <div class="vsl-gate-teaser__lock">
+        <button type="button" class="btn btn--primary btn--lg btn--glow" id="vslGateUnlockBtn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Assistir para desbloquear
+        </button>
+        <p class="vsl-gate-teaser__hint">Assista a apresentação acima para liberar o restante do conteúdo</p>
+      </div>
+      </div>
+
       <!-- Solução / Método -->
       <section class="section section--solution" id="metodo">
         <div class="container">
@@ -276,28 +289,13 @@
       <section class="section section--instructor" id="instrutor">
         <div class="container">
           <div class="instructor-grid">
-            <div class="instructor-visual reveal">
+            <div class="instructor-visual reveal" id="instructorVisual">
+              <div class="instructor-photo-wrap" id="instructorPhotoWrap">
               <a href="https://instagram.com/mitplay10" class="instructor-photo glass-card" target="_blank" rel="noopener noreferrer" data-cms="instructor.photoLink" aria-label="Instagram de Lucas João">
+                <span class="instructor-photo__viral-ring" aria-hidden="true"></span>
                 <img src="assets/edits/lucas-joao.png" alt="Lucas João, criador do Player Monetizado" width="400" height="480" loading="lazy" data-cms="instructor.photo">
-                <span class="instructor-photo__ig-bubble">
-                  <svg class="instructor-photo__ig-icon" viewBox="0 0 24 24" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="ig-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#feda75"/>
-                        <stop offset="25%" stop-color="#fa7e1e"/>
-                        <stop offset="50%" stop-color="#d62976"/>
-                        <stop offset="75%" stop-color="#962fbf"/>
-                        <stop offset="100%" stop-color="#4f5bd5"/>
-                      </linearGradient>
-                    </defs>
-                    <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="url(#ig-gradient)" stroke-width="2"/>
-                    <circle cx="12" cy="12" r="4.5" fill="none" stroke="url(#ig-gradient)" stroke-width="2"/>
-                    <circle cx="17.4" cy="6.6" r="1.2" fill="url(#ig-gradient)"/>
-                  </svg>
-                  <span data-cms="instructor.photoBubble">@mitplay10</span>
-                </span>
-                <div class="instructor-photo__badge">Criador do método</div>
               </a>
+              </div>
             </div>
             <div class="instructor-content reveal">
               <span class="section-tag">Quem ensina</span>
@@ -675,9 +673,14 @@
             <h2 class="section-title" data-cms="faq.title">Perguntas <span class="gradient-text">frequentes</span></h2>
           </div>
           <div class="faq-list" id="faqList" data-cms="faq.list">
-            <details class="faq-item reveal">
+            <details class="faq-item reveal" open>
               <summary class="faq-item__question">
-                Preciso aparecer nos vídeos?
+                <span class="faq-item__lead">
+                  <span class="faq-item__topic-icon faq-item__topic-icon--ghost" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a4 4 0 11-8 0 4 4 0 018 0z"/><path d="M12 14c-4 0-6 2-6 4v2h12v-2c0-2-2-4-6-4z"/><line x1="4" y1="4" x2="20" y2="20"/></svg>
+                  </span>
+                  <span class="faq-item__text">Preciso aparecer nos vídeos?</span>
+                </span>
                 <span class="faq-item__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq-item__answer">
@@ -686,7 +689,12 @@
             </details>
             <details class="faq-item reveal">
               <summary class="faq-item__question">
-                Consigo fazer apenas pelo celular?
+                <span class="faq-item__lead">
+                  <span class="faq-item__topic-icon faq-item__topic-icon--phone" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                  </span>
+                  <span class="faq-item__text">Consigo fazer apenas pelo celular?</span>
+                </span>
                 <span class="faq-item__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq-item__answer">
@@ -695,7 +703,12 @@
             </details>
             <details class="faq-item reveal">
               <summary class="faq-item__question">
-                Como recebo o acesso?
+                <span class="faq-item__lead">
+                  <span class="faq-item__topic-icon faq-item__topic-icon--mail" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg>
+                  </span>
+                  <span class="faq-item__text">Como recebo o acesso?</span>
+                </span>
                 <span class="faq-item__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq-item__answer">
@@ -704,7 +717,12 @@
             </details>
             <details class="faq-item reveal">
               <summary class="faq-item__question">
-                Preciso saber editar vídeos?
+                <span class="faq-item__lead">
+                  <span class="faq-item__topic-icon faq-item__topic-icon--video" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  </span>
+                  <span class="faq-item__text">Preciso saber editar vídeos?</span>
+                </span>
                 <span class="faq-item__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq-item__answer">
@@ -713,7 +731,12 @@
             </details>
             <details class="faq-item reveal">
               <summary class="faq-item__question">
-                Quanto tempo por dia preciso dedicar?
+                <span class="faq-item__lead">
+                  <span class="faq-item__topic-icon faq-item__topic-icon--clock" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  </span>
+                  <span class="faq-item__text">Quanto tempo por dia preciso dedicar?</span>
+                </span>
                 <span class="faq-item__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq-item__answer">
@@ -722,7 +745,12 @@
             </details>
             <details class="faq-item reveal">
               <summary class="faq-item__question">
-                E se eu não gostar do curso?
+                <span class="faq-item__lead">
+                  <span class="faq-item__topic-icon faq-item__topic-icon--shield" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </span>
+                  <span class="faq-item__text">E se eu não gostar do curso?</span>
+                </span>
                 <span class="faq-item__icon" aria-hidden="true"></span>
               </summary>
               <div class="faq-item__answer">
@@ -811,7 +839,7 @@
     </main>
   </section>
 
-  <script src="js/config.min.js?v=c89c86dcb8" defer></script>
-  <script src="js/site.min.js?v=c89c86dcb8" defer></script>
+  <script src="js/config.min.js?v=61ac384235" defer></script>
+  <script src="js/site.min.js?v=61ac384235" defer></script>
 </body>
 </html>

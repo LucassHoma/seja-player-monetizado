@@ -185,6 +185,33 @@
       .replace(/"/g, '&quot;');
   }
 
+  const FAQ_TOPIC_ICONS = [
+    {
+      className: 'faq-item__topic-icon--ghost',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a4 4 0 11-8 0 4 4 0 018 0z"/><path d="M12 14c-4 0-6 2-6 4v2h12v-2c0-2-2-4-6-4z"/><line x1="4" y1="4" x2="20" y2="20"/></svg>'
+    },
+    {
+      className: 'faq-item__topic-icon--phone',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'
+    },
+    {
+      className: 'faq-item__topic-icon--mail',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M4 7l8 6 8-6"/></svg>'
+    },
+    {
+      className: 'faq-item__topic-icon--video',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>'
+    },
+    {
+      className: 'faq-item__topic-icon--clock',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>'
+    },
+    {
+      className: 'faq-item__topic-icon--shield',
+      svg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+    }
+  ];
+
   function setTitleWithAccent(el, title, accent) {
     if (!el || title == null) return;
     if (accent && title.includes(accent)) {
@@ -452,17 +479,23 @@
     setText(document.querySelector('[data-cms="faq.tag"]'), faq?.tag);
     const faqList = document.querySelector('[data-cms="faq.list"]');
     if (faqList && faq?.items) {
-      faqList.innerHTML = faq.items.map(item => `
-        <details class="faq-item reveal">
+      faqList.innerHTML = faq.items.map((item, index) => {
+        const icon = FAQ_TOPIC_ICONS[index % FAQ_TOPIC_ICONS.length];
+        return `
+        <details class="faq-item reveal"${index === 0 ? ' open' : ''}>
           <summary class="faq-item__question">
-            ${escapeHtml(item.question)}
+            <span class="faq-item__lead">
+              <span class="faq-item__topic-icon ${icon.className}" aria-hidden="true">${icon.svg}</span>
+              <span class="faq-item__text">${escapeHtml(item.question)}</span>
+            </span>
             <span class="faq-item__icon" aria-hidden="true"></span>
           </summary>
           <div class="faq-item__answer">
             <p>${escapeHtml(item.answer)}</p>
           </div>
         </details>
-      `).join('');
+      `;
+      }).join('');
     }
 
     setText(document.querySelector('[data-cms="footer.tagline"]'), footer?.tagline);

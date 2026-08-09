@@ -37,8 +37,70 @@
   const scrollProgress = document.getElementById('scrollProgress');
   const glow1 = document.querySelector('.hero__glow--1');
   const glow2 = document.querySelector('.hero__glow--2');
-  const enableHeroParallax = window.matchMedia('(min-width: 769px) and (pointer: fine)').matches;
+  const instructorVisual = document.getElementById('instructorVisual');
+  const instructorPhotoWrap = document.getElementById('instructorPhotoWrap');
+  const instructorPhotoImg = document.querySelector('.instructor-photo img');
+  const prefersReducedMotionGlobal = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const enableHeroParallax =
+    window.matchMedia('(min-width: 769px) and (pointer: fine)').matches && !prefersReducedMotionGlobal;
+  const enableInstructorParallax = !prefersReducedMotionGlobal;
   let scrollTicking = false;
+
+  const instructorParallax = {
+    current: { rx: 0, ry: 0, ty: 0, iz: 1, imgY: 0 },
+    target: { rx: 0, ry: 0, ty: 0, iz: 1, imgY: 0 },
+    mouse: { x: 0, y: 0 }
+  };
+
+  function computeInstructorParallaxTargets() {
+    if (!enableInstructorParallax || !instructorVisual || !instructorPhotoWrap) return;
+
+    const rect = instructorVisual.getBoundingClientRect();
+    const vh = window.innerHeight;
+
+    if (rect.bottom < -80 || rect.top > vh + 80) {
+      instructorParallax.target.rx = 0;
+      instructorParallax.target.ry = 0;
+      instructorParallax.target.ty = 0;
+      instructorParallax.target.imgY = 0;
+      instructorParallax.target.iz = 1;
+      return;
+    }
+
+    const centerOffset = (rect.top + rect.height * 0.45) - vh * 0.5;
+    const norm = centerOffset / (vh * 0.52);
+    const clamped = Math.max(-1, Math.min(1, norm));
+    const mouseScale = enableHeroParallax ? 1 : 0;
+
+    instructorParallax.target.ry = clamped * 18 + instructorParallax.mouse.x * 12 * mouseScale;
+    instructorParallax.target.rx = clamped * -12 + instructorParallax.mouse.y * -9 * mouseScale;
+    instructorParallax.target.ty = clamped * -36;
+    instructorParallax.target.imgY = clamped * -22 + instructorParallax.mouse.y * 8 * mouseScale;
+    instructorParallax.target.iz = 1 + Math.abs(clamped) * 0.035;
+  }
+
+  function renderInstructorParallax() {
+    if (!enableInstructorParallax || !instructorPhotoWrap) return;
+
+    const lerp = 0.11;
+    const c = instructorParallax.current;
+    const t = instructorParallax.target;
+
+    c.rx += (t.rx - c.rx) * lerp;
+    c.ry += (t.ry - c.ry) * lerp;
+    c.ty += (t.ty - c.ty) * lerp;
+    c.imgY += (t.imgY - c.imgY) * lerp;
+    c.iz += (t.iz - c.iz) * lerp;
+
+    instructorPhotoWrap.style.transform =
+      `perspective(1200px) rotateX(${c.rx.toFixed(2)}deg) rotateY(${c.ry.toFixed(2)}deg) translate3d(0, ${c.ty.toFixed(1)}px, 0) scale(${c.iz.toFixed(3)})`;
+
+    if (instructorPhotoImg) {
+      instructorPhotoImg.style.transform = `translate3d(0, ${c.imgY.toFixed(1)}px, 0) scale(1.08)`;
+    }
+
+    requestAnimationFrame(renderInstructorParallax);
+  }
 
   function handleScroll() {
     const scrollY = window.scrollY;
@@ -61,6 +123,8 @@
       if (glow1) glow1.style.transform = `translateY(${y}px)`;
       if (glow2) glow2.style.transform = `translateY(${-y * 0.5}px)`;
     }
+
+    computeInstructorParallaxTargets();
   }
 
   function onScroll() {
@@ -74,6 +138,26 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
   handleScroll();
+
+  if (enableInstructorParallax && instructorPhotoWrap) {
+    computeInstructorParallaxTargets();
+    requestAnimationFrame(renderInstructorParallax);
+  }
+
+  if (enableHeroParallax && instructorVisual) {
+    instructorVisual.addEventListener('mousemove', (event) => {
+      const rect = instructorVisual.getBoundingClientRect();
+      instructorParallax.mouse.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      instructorParallax.mouse.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      computeInstructorParallaxTargets();
+    });
+
+    instructorVisual.addEventListener('mouseleave', () => {
+      instructorParallax.mouse.x = 0;
+      instructorParallax.mouse.y = 0;
+      computeInstructorParallaxTargets();
+    });
+  }
 
   /* ── Mobile navigation ── */
   if (navToggle && nav) {
@@ -378,17 +462,22 @@
   setInterval(updateCountdown, 1000);
 
   /* ── FAQ accordion (single open) ── */
-  const faqItems = document.querySelectorAll('.faq-item');
-
-  faqItems.forEach(item => {
-    item.addEventListener('toggle', () => {
-      if (item.open) {
-        faqItems.forEach(other => {
-          if (other !== item) other.open = false;
-        });
-      }
+  function bindFaqAccordion(root = document) {
+    root.querySelectorAll('.faq-item').forEach(item => {
+      if (item.dataset.faqBound === '1') return;
+      item.dataset.faqBound = '1';
+      item.addEventListener('toggle', () => {
+        if (item.open) {
+          root.querySelectorAll('.faq-item').forEach(other => {
+            if (other !== item) other.open = false;
+          });
+        }
+      });
     });
-  });
+  }
+
+  bindFaqAccordion();
+  window.addEventListener('cms:applied', () => bindFaqAccordion(document.getElementById('faqList') || document));
 
   /* ── Active nav link on scroll ── */
   const sections = document.querySelectorAll('section[id]');
@@ -426,6 +515,25 @@
     localStorage.setItem(vslGatePersistKey, 'true');
     refreshRevealsInView();
     initCountUps(vslGate);
+  }
+
+  function scrollToVslAndPlay() {
+    if (vslSection) {
+      vslSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    window.setTimeout(() => {
+      const heroVsl = document.getElementById('heroVsl');
+      const vslFacade = document.getElementById('vslFacade');
+      if (vslFacade && heroVsl && !heroVsl.classList.contains('is-active')) {
+        vslFacade.click();
+      }
+    }, 650);
+  }
+
+  function initVslGatePreview() {
+    if (!vslGate?.classList.contains('hidden')) return;
+    vslGate.querySelectorAll('.vsl-gate-teaser .reveal').forEach((el) => el.classList.add('visible'));
   }
 
   function watchVslGateFallback() {
@@ -502,7 +610,8 @@
     if (!target) return;
 
     if (vslGate?.classList.contains('hidden') && vslGate.contains(target)) {
-      unlockVslGate();
+      scrollToVslAndPlay();
+      return;
     }
 
     target.scrollIntoView({ behavior: 'smooth' });
@@ -526,7 +635,10 @@
   }
 
   initVslGate();
+  initVslGatePreview();
   bindAnchorNavigation();
+
+  document.getElementById('vslGateUnlockBtn')?.addEventListener('click', scrollToVslAndPlay);
 
   /* ── Hero visible class for stat stagger ── */
   if (hero) {
@@ -799,6 +911,46 @@
   bindTestimonialsMarqueePause();
   initTestimonialsMarquee();
   window.addEventListener('cms:applied', initTestimonialsMarquee);
+
+  function initLogosMarquee() {
+    const track = document.getElementById('logosTrack');
+    const viewport = track?.closest('.logos-bar__viewport');
+    if (!track || !viewport) return;
+
+    if (!initLogosMarquee.seed) {
+      initLogosMarquee.seed = [...track.querySelectorAll('.logo-item')].map((item) => item.cloneNode(true));
+    }
+
+    track.replaceChildren(...initLogosMarquee.seed.map((item) => item.cloneNode(true)));
+
+    const seed = [...track.children];
+    let guard = 0;
+
+    while (track.scrollWidth < viewport.clientWidth * 1.2 && guard < 20) {
+      seed.forEach((item) => {
+        track.appendChild(item.cloneNode(true));
+      });
+      guard += 1;
+    }
+
+    const halfCount = track.children.length;
+    for (let i = 0; i < halfCount; i += 1) {
+      const clone = track.children[i].cloneNode(true);
+      clone.setAttribute('data-marquee-clone', '1');
+      track.appendChild(clone);
+    }
+
+    track.classList.remove('is-marquee-ready');
+    track.style.removeProperty('--logos-marquee-duration');
+    const halfWidth = track.scrollWidth / 2;
+    const duration = Math.max(halfWidth / 55, 18);
+    track.style.setProperty('--logos-marquee-duration', `${duration}s`);
+    track.classList.add('is-marquee-ready');
+  }
+
+  initLogosMarquee();
+  window.addEventListener('load', initLogosMarquee, { once: true });
+  window.addEventListener('resize', initLogosMarquee, { passive: true });
 
   /* ── Social proof slider (WhatsApp prints) ── */
   function initSocialProofSlider() {
