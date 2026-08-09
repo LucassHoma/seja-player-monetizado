@@ -18,6 +18,8 @@
   const vslSection = document.getElementById('vsl');
 
   document.querySelectorAll('.hero .reveal').forEach((el) => el.classList.add('visible'));
+  document.querySelectorAll('#testimonialsTrack .testimonial-card.reveal').forEach((el) => el.classList.add('visible'));
+  document.querySelectorAll('.social-proof.reveal').forEach((el) => el.classList.add('visible'));
 
   document.querySelectorAll('a[href*="kiwify.com"], .checkout-link').forEach(link => {
     link.classList.add('checkout-link');
@@ -775,6 +777,79 @@
   bindTestimonialsMarqueePause();
   initTestimonialsMarquee();
   window.addEventListener('cms:applied', initTestimonialsMarquee);
+
+  /* ── Social proof slider (WhatsApp prints) ── */
+  function initSocialProofSlider() {
+    const slider = document.getElementById('socialProofSlider');
+    const track = document.getElementById('socialProofTrack');
+    const viewport = slider?.querySelector('.social-proof-slider__viewport');
+    if (!slider || !track || !viewport) return;
+
+    const slides = [...track.children];
+    const prevBtn = slider.querySelector('.social-proof-slider__nav--prev');
+    const nextBtn = slider.querySelector('.social-proof-slider__nav--next');
+    if (!slides.length || !prevBtn || !nextBtn) return;
+
+    let index = 0;
+    let touchStartX = 0;
+    let slideWidth = 0;
+
+    function layoutSlides() {
+      slideWidth = viewport.getBoundingClientRect().width;
+      slides.forEach((slide) => {
+        slide.style.width = `${slideWidth}px`;
+        slide.style.flexBasis = `${slideWidth}px`;
+      });
+      goTo(index, false);
+    }
+
+    function goTo(nextIndex, animate = true) {
+      index = ((nextIndex % slides.length) + slides.length) % slides.length;
+      track.style.transition = animate ? '' : 'none';
+      track.style.transform = `translateX(-${index * slideWidth}px)`;
+
+      slides.forEach((slide, i) => {
+        const active = i === index;
+        slide.classList.toggle('is-active', active);
+        slide.toggleAttribute('aria-hidden', !active);
+      });
+
+      if (!animate) {
+        requestAnimationFrame(() => {
+          track.style.transition = '';
+        });
+      }
+    }
+
+    prevBtn.addEventListener('click', () => goTo(index - 1));
+    nextBtn.addEventListener('click', () => goTo(index + 1));
+
+    slider.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        goTo(index - 1);
+      }
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        goTo(index + 1);
+      }
+    });
+
+    track.addEventListener('touchstart', (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (event) => {
+      const diff = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(diff) < 48) return;
+      goTo(index + (diff < 0 ? 1 : -1));
+    }, { passive: true });
+
+    layoutSlides();
+    window.addEventListener('resize', layoutSlides, { passive: true });
+  }
+
+  initSocialProofSlider();
 
   /* ── CMS (carrega após a página estar interativa) ── */
   function loadCmsScript() {

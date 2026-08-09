@@ -60,20 +60,38 @@
     return /drive\.google\.com/i.test(String(url || ''));
   }
 
-  /** Prefer local assets over Drive uploads when content.json has the canonical path. */
-  function reconcileTestimonialPhotos(data, staticData) {
+  /** Prefer local assets/order from content.json over CMS edits no Drive. */
+  function reconcileTestimonials(data, staticData) {
     const items = data?.testimonials?.items;
     const staticItems = staticData?.testimonials?.items;
     if (!items?.length || !staticItems?.length) return data;
 
     const staticById = Object.fromEntries(staticItems.map((item) => [item.id, item]));
-    data.testimonials.items = items.map((item) => {
-      const local = staticById[item.id];
-      if (local?.photo?.startsWith('assets/') && isDrivePhotoUrl(item.photo)) {
-        return { ...item, photo: local.photo };
-      }
-      return item;
-    });
+    const orderIndex = Object.fromEntries(staticItems.map((item, index) => [item.id, index]));
+
+    data.testimonials.items = items
+      .map((item) => {
+        const local = staticById[item.id];
+        if (!local) return item;
+
+        const next = { ...item };
+        if (local.photo?.startsWith('assets/') && isDrivePhotoUrl(item.photo)) {
+          next.photo = local.photo;
+        }
+        if (typeof local.order === 'number') {
+          next.order = local.order;
+        }
+        return next;
+      })
+      .sort((a, b) => {
+        const orderA = orderIndex[a.id];
+        const orderB = orderIndex[b.id];
+        if (orderA == null && orderB == null) return 0;
+        if (orderA == null) return 1;
+        if (orderB == null) return -1;
+        return orderA - orderB;
+      });
+
     return data;
   }
 
@@ -83,7 +101,7 @@
     if (GAS_CONTENT) {
       try {
         const gasData = await loadJsonp(GAS_CONTENT);
-        return reconcileTestimonialPhotos(gasData, staticData);
+        return reconcileTestimonials(gasData, staticData);
       } catch (err) {
         console.warn('[CMS] GAS indisponível, usando content.json:', err.message);
       }
@@ -91,7 +109,7 @@
 
     try {
       const response = await fetch(`${API}?t=${Date.now()}`, { cache: 'no-store' });
-      if (response.ok) return reconcileTestimonialPhotos(await response.json(), staticData);
+      if (response.ok) return reconcileTestimonials(await response.json(), staticData);
     } catch {
       /* API indisponível (ex.: GitHub Pages) */
     }
@@ -250,8 +268,14 @@
   function applyTestimonials(track, items) {
     if (!track || !items?.length) return;
 
+    const sortedItems = [...items].sort((a, b) => {
+      const orderA = Number.isFinite(a.order) ? a.order : Number.MAX_SAFE_INTEGER;
+      const orderB = Number.isFinite(b.order) ? b.order : Number.MAX_SAFE_INTEGER;
+      return orderA - orderB;
+    });
+
     const star = '<svg class="icon-star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
-    track.innerHTML = items.map((t) => renderTestimonialCard(t, star)).join('');
+    track.innerHTML = sortedItems.map((t) => renderTestimonialCard(t, star)).join('');
   }
 
   function applyContent(data) {

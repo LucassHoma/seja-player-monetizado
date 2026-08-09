@@ -44,9 +44,9 @@
   </script>
   <link rel="apple-touch-icon" href="assets/brand/favicon.svg">
   <link rel="preload" href="assets/fonts/sora-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/critical.min.css?v=4525cf353c">
-  <link rel="stylesheet" href="css/site.min.css?v=4525cf353c">
-  <meta name="pm-asset-version" content="4525cf353c">
+  <link rel="stylesheet" href="css/critical.min.css?v=60c3dc957e">
+  <link rel="stylesheet" href="css/site.min.css?v=60c3dc957e">
+  <meta name="pm-asset-version" content="60c3dc957e">
 </head>
 <body>
 
@@ -407,12 +407,64 @@
             <h2 class="section-title" data-cms="testimonials.title">O que nossos alunos <span class="gradient-text">dizem</span></h2>
             <p class="section-desc" data-cms="testimonials.subtitle">Criadores de cortes que já aplicaram o método</p>
           </div>
+
+          <div class="social-proof reveal">
+            <div class="social-proof__intro">
+              <h3 class="social-proof__title">Prints reais no WhatsApp</h3>
+              <p class="social-proof__desc">Conversas enviadas pelos alunos com pagamentos e resultados reais</p>
+            </div>
+
+            <div class="social-proof-slider" id="socialProofSlider">
+              <div class="social-proof-slider__frame">
+                <button type="button" class="social-proof-slider__nav social-proof-slider__nav--prev" aria-label="Prova anterior">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+
+                <div class="social-proof-slider__viewport">
+                  <ul class="social-proof-slider__track" id="socialProofTrack" aria-live="polite">
+                    <li class="social-proof-slide is-active">
+                      <figure class="social-proof-slide__frame glass-card">
+                        <img src="assets/social-proof/jose-pereira.png" alt="Print de WhatsApp de José Pereira mostrando pagamento de R$ 9.357,48 da TikTok" width="390" height="844" loading="eager" decoding="async">
+                        <figcaption>
+                          <strong>José Pereira</strong>
+                          <span>R$ 9.357,48 · Recompensas de Criador</span>
+                        </figcaption>
+                      </figure>
+                    </li>
+                    <li class="social-proof-slide" aria-hidden="true">
+                      <figure class="social-proof-slide__frame glass-card">
+                        <img src="assets/social-proof/fernando-morais.png" alt="Print de WhatsApp de Fernando Morais mostrando pagamento de USD 110,23" width="390" height="844" loading="lazy" decoding="async">
+                        <figcaption>
+                          <strong>Fernando Morais</strong>
+                          <span>USD 110,23 · Primeiro pagamento em dólar</span>
+                        </figcaption>
+                      </figure>
+                    </li>
+                    <li class="social-proof-slide" aria-hidden="true">
+                      <figure class="social-proof-slide__frame glass-card">
+                        <img src="assets/social-proof/alexandre-silva.png" alt="Print de WhatsApp de Alexandre Silva mostrando corte com 2,1 milhões de curtidas" width="390" height="844" loading="lazy" decoding="async">
+                        <figcaption>
+                          <strong>Alexandre Silva</strong>
+                          <span>2,1M curtidas · 100% pelo celular</span>
+                        </figcaption>
+                      </figure>
+                    </li>
+                  </ul>
+                </div>
+
+                <button type="button" class="social-proof-slider__nav social-proof-slider__nav--next" aria-label="Próxima prova">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="testimonials-marquee reveal">
             <div class="testimonials-marquee__viewport">
               <div class="testimonials-marquee__track" id="testimonialsTrack" data-cms="testimonials.grid">
             <article class="testimonial-card glass-card reveal">
               <header class="testimonial-card__header">
-                <img src="assets/testimonials/felipe.png" alt="Felipe Morais" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+                <img src="assets/testimonials/felipe.png" alt="Felipe Morais" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async">
                 <div class="testimonial-card__author">
                   <strong>Felipe Morais</strong>
                   <span><span class="count-up">15</span> min por corte · <span class="count-up" data-count="100" data-suffix="%">0</span> celular</span>
@@ -429,7 +481,7 @@
             </article>
             <article class="testimonial-card glass-card reveal">
               <header class="testimonial-card__header">
-                <img src="assets/testimonials/henrique.png" alt="Henrique Souza" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+                <img src="assets/testimonials/henrique.png" alt="Henrique Souza" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async">
                 <div class="testimonial-card__author">
                   <strong>Henrique Souza</strong>
                   <span>R$<span class="count-up" data-count="10" data-suffix="K+">10</span>/mês · Fundo de Criadores</span>
@@ -446,7 +498,7 @@
             </article>
             <article class="testimonial-card glass-card reveal">
               <header class="testimonial-card__header">
-                <img src="assets/testimonials/rafael.png" alt="Rafael Costa" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+                <img src="assets/testimonials/rafael.png" alt="Rafael Costa" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async">
                 <div class="testimonial-card__author">
                   <strong>Rafael Costa</strong>
                   <span><span class="count-up" data-count="80" data-suffix="K">80</span> views · <span class="count-up">14</span> dias</span>
@@ -463,7 +515,7 @@
             </article>
             <article class="testimonial-card glass-card reveal">
               <header class="testimonial-card__header">
-                <img src="assets/testimonials/pedro.png" alt="Pedro Almeida" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+                <img src="assets/testimonials/pedro.png" alt="Pedro Almeida" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async">
                 <div class="testimonial-card__author">
                   <strong>Pedro Almeida</strong>
                   <span>Primeiro corte · <span class="count-up">3</span> dias</span>
@@ -480,7 +532,7 @@
             </article>
             <article class="testimonial-card glass-card reveal">
               <header class="testimonial-card__header">
-                <img src="assets/testimonials/marcos.png" alt="Marcos Vieira" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+                <img src="assets/testimonials/marcos.png" alt="Marcos Vieira" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async">
                 <div class="testimonial-card__author">
                   <strong>Marcos Vieira</strong>
                   <span><span class="count-up">52</span> anos · Canal novo</span>
@@ -497,7 +549,7 @@
             </article>
             <article class="testimonial-card glass-card reveal">
               <header class="testimonial-card__header">
-                <img src="assets/testimonials/lucas-tanaka.png" alt="Lucas Tanaka" class="testimonial-card__avatar" width="56" height="56" loading="lazy">
+                <img src="assets/testimonials/lucas-tanaka.png" alt="Lucas Tanaka" class="testimonial-card__avatar" width="56" height="56" loading="eager" decoding="async">
                 <div class="testimonial-card__author">
                   <strong>Lucas Tanaka</strong>
                   <span><span class="count-up" data-count="120" data-suffix="K">120</span> views · <span class="count-up">1</span> corte</span>
@@ -759,7 +811,7 @@
     </main>
   </section>
 
-  <script src="js/config.min.js?v=4525cf353c" defer></script>
-  <script src="js/site.min.js?v=4525cf353c" defer></script>
+  <script src="js/config.min.js?v=60c3dc957e" defer></script>
+  <script src="js/site.min.js?v=60c3dc957e" defer></script>
 </body>
 </html>

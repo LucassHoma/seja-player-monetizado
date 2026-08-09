@@ -1,15 +1,7 @@
   /**
   * Player Monetizado — CMS no Google Apps Script
   *
-  * Deploy como Web App:
-  *   Executar como: Eu
-  *   Quem tem acesso: Qualquer pessoa
-  *
-  * Endpoints públicos (landing page):
-  *   GET ?action=content           → JSON
-  *   GET ?action=content&callback= → JSONP (sem CORS)
-  *
-  * Admin: abra a URL do Web App no navegador (HtmlService)
+
   */
 
   var PROP = {
