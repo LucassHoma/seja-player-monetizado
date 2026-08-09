@@ -77,7 +77,7 @@ export default {
   },
   instructor: {
     photo: 'assets/edits/lucas-joao.png',
-    name: 'Lucas João Resende',
+    name: 'Lucas João',
     instagram: '@mitplay10',
     instagramUrl: 'https://instagram.com/mitplay10',
     bio: 'Criador do Player Monetizado e especialista em cortes de futebol de alta retenção para TikTok, Reels e Shorts.',
@@ -90,7 +90,7 @@ export default {
     ]
   },
   testimonials: {
-    tag: 'Prova social',
+    tag: 'Depoimentos',
     title: 'O que nossos alunos dizem',
     titleAccent: 'dizem',
     subtitle: 'Criadores de cortes que já aplicaram o método',

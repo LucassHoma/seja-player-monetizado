@@ -331,7 +331,7 @@
     animateCountUp(el, config);
   }
 
-  const COUNT_UP_SCOPE = '#metodo, #resultados';
+  const COUNT_UP_SCOPE = '#metodo, #depoimentos';
 
   function initCountUps(root = document) {
     const elements = root.querySelectorAll(`${COUNT_UP_SCOPE} .count-up:not([data-count-done])`);
@@ -386,20 +386,6 @@
         faqItems.forEach(other => {
           if (other !== item) other.open = false;
         });
-      }
-    });
-  });
-
-  /* ── Smooth scroll for anchor links ── */
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-      const targetId = anchor.getAttribute('href');
-      if (targetId === '#') return;
-
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
       }
     });
   });
@@ -504,7 +490,43 @@
     watchVslGateFallback();
   }
 
+  const ANCHOR_ALIASES = { resultados: 'depoimentos' };
+
+  function resolveAnchorTarget(hash) {
+    if (!hash || hash === '#') return null;
+    const id = ANCHOR_ALIASES[hash.replace('#', '')] || hash.replace('#', '');
+    return document.getElementById(id);
+  }
+
+  function scrollToSection(target) {
+    if (!target) return;
+
+    if (vslGate?.classList.contains('hidden') && vslGate.contains(target)) {
+      unlockVslGate();
+    }
+
+    target.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function bindAnchorNavigation() {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (event) => {
+        const target = resolveAnchorTarget(anchor.getAttribute('href'));
+        if (!target) return;
+
+        event.preventDefault();
+        scrollToSection(target);
+      });
+    });
+
+    const initialTarget = resolveAnchorTarget(window.location.hash);
+    if (initialTarget) {
+      window.requestAnimationFrame(() => scrollToSection(initialTarget));
+    }
+  }
+
   initVslGate();
+  bindAnchorNavigation();
 
   /* ── Hero visible class for stat stagger ── */
   if (hero) {

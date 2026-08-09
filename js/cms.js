@@ -392,6 +392,7 @@
       highlights.innerHTML = instructor.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join('');
     }
 
+    setText(document.querySelector('[data-cms="testimonials.tag"]'), testimonials?.tag);
     setTitleWithAccent(
       document.querySelector('[data-cms="testimonials.title"]'),
       testimonials?.title,
@@ -473,7 +474,7 @@
       `).join('');
     }
 
-    resetCountUps(['#resultados .count-up']);
+    resetCountUps(['#depoimentos .count-up']);
   }
 
   loadContent()
